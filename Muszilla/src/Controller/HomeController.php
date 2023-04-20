@@ -47,7 +47,7 @@ class HomeController extends AbstractController {
     $this->music = new Music();
     $this->connection_obj = new DbConnect();
     $this->conn = $this->connection_obj->connect();
-    $this->upload_obj = new uploadCon();
+    $this->upload_obj = new UploadCon();
     $this->user = new User();
   }
 
@@ -67,7 +67,7 @@ class HomeController extends AbstractController {
     session_start();
     if(isset($_SESSION['email'])) {
       $user = $this->user->getUserData($_SESSION['email']);
-      return $this->render('Muszilla/home.html.twig', ['user'=>$user]);
+      return $this->render('Muszilla/home.html.twig', ['user' => $user]);
     }
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
       try {
@@ -82,6 +82,7 @@ class HomeController extends AbstractController {
       }
       
     }
+    session_destroy();
     return $this->render('Muszilla/login.html.twig');
   }
 
@@ -99,7 +100,7 @@ class HomeController extends AbstractController {
     session_start();
     if(isset($_SESSION['email'])) {
       $user = $this->user->getUserData($_SESSION['email']);
-      return $this->render('Muszilla/home.html.twig', ['user'=>$user]);
+      return $this->render('Muszilla/home.html.twig', ['user' => $user]);
     }
     return $this->render('Muszilla/login.html.twig');
   }
@@ -140,8 +141,9 @@ class HomeController extends AbstractController {
     session_start();
     if(isset($_SESSION['email'])) {
       $user = $this->user->getUserData($_SESSION['email']);
-      return $this->redirectToRoute('app_root', ['user'=>$user]);
+      return $this->redirectToRoute('app_root', ['user' => $user]);
     }
+    session_destroy();
     return $this->render('Muszilla/register.html.twig');
   }
 
@@ -170,7 +172,7 @@ class HomeController extends AbstractController {
         $_SESSION['email'] = $request->request->get('email');
         $user = $this->user->getUserData($user['email']);
         $music = $this->music->getMusic();
-        return $this->render('Muszilla/home.html.twig', ['user'=>$user, 'music' => $music]);
+        return $this->render('Muszilla/home.html.twig', ['user' => $user, 'music' => $music]);
       }
       else {
         $error = 'User does not exist';
@@ -296,7 +298,7 @@ class HomeController extends AbstractController {
         }
         catch (Exception $e) {
           $error = $e;
-          return $this->render('Muszilla/error.html.twig', ['error'=>$error]);
+          return $this->render('Muszilla/error.html.twig', ['error' => $error]);
         }     
       }
     }
@@ -307,3 +309,4 @@ class HomeController extends AbstractController {
 }
 
 ?>
+

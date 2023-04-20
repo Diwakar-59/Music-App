@@ -5,7 +5,7 @@ namespace App\Controller;
 /**
  * Class to handle the uploading of the files to be uploaded by the users.
  */
-class uploadCon {
+class UploadCon {
 
   /**
    * Function to handle the uploading of image files uploaded by the user.
@@ -111,3 +111,4 @@ class uploadCon {
 }
 
 ?>
+
